@@ -1,0 +1,31 @@
+{{define "table"}}
+<table>
+    <thead>
+        <tr>
+            {{range .Columns}}
+            <th>
+                {{if eq . "ID"}}<i class="fas fa-fingerprint sys-icon" title="ID"></i>
+                {{else if eq . "Status"}}<i class="fas fa-heartbeat sys-icon" title="Status"></i>
+                {{else if eq . "Latest"}}<i class="fas fa-clock sys-icon" title="Latest"></i>
+                {{else}}{{.}}{{end}}
+            </th>
+            {{end}}
+            <th style="text-align: right;"><i class="fas fa-cogs sys-icon" title="Actions"></i></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{range .Results}}
+        <tr>
+            {{$row := .}}
+            {{range $.Columns}}
+            <td>{{index $row .}}</td>
+            {{end}}
+            <td style="text-align: right;">
+                <button class="btn btn-glass" style="padding: 0.25rem 0.5rem;"><i
+                        class="fas fa-ellipsis-v"></i></button>
+            </td>
+        </tr>
+        {{end}}
+    </tbody>
+</table>
+{{end}}

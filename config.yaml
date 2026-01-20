@@ -1,0 +1,17 @@
+server:
+  port: "8080"
+
+database:
+  host: "localhost"
+  port: "5432"
+  user: "postgres"
+  password: "your_password"
+  database: "gobi_db"
+  schema: "public"
+
+cursor_pool:
+  max_connections: 10
+  idle_timeout: "30s"
+  absolute_timeout: "5m"
+  page_size: 10
+  available_page_sizes: [10, 20, 50, 100]

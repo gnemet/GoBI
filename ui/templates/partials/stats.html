@@ -1,0 +1,13 @@
+{{define "stats"}}
+<section class="stats-grid animate-fade-in">
+    {{range .Stats}}
+    <div class="stat-card">
+        <div class="stat-label">{{.Label}}</div>
+        <div class="stat-value">{{.Value}}</div>
+        <div class="stat-trend {{if .Up}}trend-up{{else}trend-down{{end}}">
+            <i class="fas fa-arrow-{{if .Up}}up{{else}}down{{end}}"></i> {{.Trend}}
+        </div>
+    </div>
+    {{end}}
+</section>
+{{end}}
