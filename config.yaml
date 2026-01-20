@@ -1,7 +1,7 @@
 application:
   name: "GoBI"
-  version: "0.0.23"
-  last_build: "2026-01-20 15:18:35"
+  version: "0.0.24"
+  last_build: "2026-01-20 15:32:12"
 
 server:
   port: "8080"
@@ -21,7 +21,6 @@ cursor_pool:
   page_size: 10
   available_page_sizes: [10, 20, 50, 100]
 
-reports: [vir01, vir02, vir03, vir04, vir05, vir06, vir08, vir09, vir10, vir11, vir12]
 
 
 

@@ -46,6 +46,9 @@ func ReportsHandler(w http.ResponseWriter, r *http.Request) {
 
 	total := len(aggregateReports)
 	start := offset
+	if start < 0 {
+		start = 0
+	}
 	if start > total {
 		start = total
 	}
@@ -62,6 +65,11 @@ func ReportsHandler(w http.ResponseWriter, r *http.Request) {
 			nextPageSize = availableSizes[(i+1)%len(availableSizes)]
 			break
 		}
+	}
+
+	prevOffset := offset - limit
+	if prevOffset < 0 {
+		prevOffset = 0
 	}
 
 	data := struct {
@@ -88,12 +96,17 @@ func ReportsHandler(w http.ResponseWriter, r *http.Request) {
 		NextLimit:    nextPageSize,
 		Offset:       offset,
 		Total:        total,
-		PrevOffset:   offset - limit,
+		PrevOffset:   prevOffset,
 		NextOffset:   offset + limit,
 		HasPrev:      offset > 0,
 		HasNext:      offset+limit < total,
 		CurrentPage:  (offset / limit) + 1,
 		TotalPages:   (total + limit - 1) / limit,
+	}
+
+	if r.Header.Get("HX-Request") == "true" {
+		tmpl.ExecuteTemplate(w, "reports_list", data)
+		return
 	}
 
 	tmpl.Execute(w, data)
