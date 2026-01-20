@@ -1,0 +1,8 @@
+# PostgreSQL connection settings for the SOURCE database (zafir_db)
+PGHOST_SOURCE=localhost
+PGPORT_SOURCE=5433
+PGUSER_SOURCE=root
+PGPASSWORD_SOURCE=soa123
+SOURCE_DB_NAME=zafir_db
+SOURCE_SCHEMA_NAME=demo_db
+DUMP_FILE=vir_tables_dump.sql

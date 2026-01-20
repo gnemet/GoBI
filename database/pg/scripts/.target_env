@@ -1,0 +1,9 @@
+# PostgreSQL connection settings for the TARGET database (gobi01_db)
+PGHOST_TARGET=localhost
+PGPORT_TARGET=5433
+PGUSER_TARGET=root
+PGPASSWORD_TARGET=soa123
+TARGET_DB_NAME=gobi01_db
+TARGET_SCHEMA_NAME=gobi
+SOURCE_SCHEMA_NAME=demo_db # The schema name as it appears in the dump file
+DUMP_FILE=vir_tables_dump.sql

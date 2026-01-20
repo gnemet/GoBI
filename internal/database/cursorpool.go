@@ -24,11 +24,13 @@ type CursorState struct {
 }
 
 type CursorPool struct {
-	db          *sql.DB
-	cursors     map[string]*CursorState
-	mu          sync.Mutex
-	maxConns    int
-	idleTimeout time.Duration
+	db                 *sql.DB
+	cursors            map[string]*CursorState
+	mu                 sync.Mutex
+	maxConns           int
+	idleTimeout        time.Duration
+	DefaultPageSize    int
+	AvailablePageSizes []int
 }
 
 func NewCursorPool(connStr string, cfg config.CursorPoolConfig) (*CursorPool, error) {
@@ -43,14 +45,24 @@ func NewCursorPool(connStr string, cfg config.CursorPoolConfig) (*CursorPool, er
 	}
 
 	pool := &CursorPool{
-		db:          db,
-		cursors:     make(map[string]*CursorState),
-		maxConns:    cfg.MaxConnections,
-		idleTimeout: idleTimeout,
+		db:                 db,
+		cursors:            make(map[string]*CursorState),
+		maxConns:           cfg.MaxConnections,
+		idleTimeout:        idleTimeout,
+		DefaultPageSize:    cfg.PageSize,
+		AvailablePageSizes: cfg.AvailablePageSizes,
 	}
 
 	go pool.cleanupRoutine()
 	return pool, nil
+}
+
+func (p *CursorPool) Ping(ctx context.Context) error {
+	return p.db.PingContext(ctx)
+}
+
+func (p *CursorPool) GetDB() *sql.DB {
+	return p.db
 }
 
 func (p *CursorPool) cleanupRoutine() {
@@ -137,6 +149,8 @@ func (p *CursorPool) FetchPage(ctx context.Context, sessionID, direction string)
 		fetchSQL = fmt.Sprintf("MOVE RELATIVE -%d FROM %s; FETCH FORWARD %d FROM %s", 2*state.PageSize, state.CursorName, state.PageSize, state.CursorName)
 	case "FIRST":
 		fetchSQL = fmt.Sprintf("MOVE ABSOLUTE 0 FROM %s; FETCH FORWARD %d FROM %s", state.CursorName, state.PageSize, state.CursorName)
+	case "LAST":
+		fetchSQL = fmt.Sprintf("MOVE LAST FROM %s; MOVE RELATIVE -%d FROM %s; FETCH FORWARD %d FROM %s", state.CursorName, state.PageSize-1, state.CursorName, state.PageSize, state.CursorName)
 	}
 
 	rows, err := state.Tx.QueryContext(ctx, fetchSQL)

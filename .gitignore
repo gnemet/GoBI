@@ -1,0 +1,7 @@
+.env
+gobi
+vendor/
+*.exe
+*.test
+*.out
+vir_tables_dump.sql

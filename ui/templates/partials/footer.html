@@ -1,0 +1,22 @@
+{{define "footer"}}
+<footer class="app-footer">
+    <div class="footer-section section-left">
+        <span class="footer-item"><i class="fas fa-robot"></i> GoBI</span>
+        <span class="footer-separator">|</span>
+        <span class="footer-item"><i class="fas fa-code-branch"></i> v1.0.0</span>
+        <span class="footer-separator">|</span>
+        <span class="footer-item"><i class="fas fa-user"></i> Antigravity</span>
+    </div>
+    <div class="footer-section section-center">
+        <span class="footer-item"><i class="fas fa-database"></i> DB: {{.DatabaseName}}</span>
+    </div>
+    <div class="footer-section section-right">
+        <span class="footer-item"><i class="fas fa-calendar-alt"></i> {{.Year}}</span>
+        <span class="footer-separator">|</span>
+        <span class="footer-item">
+            <i class="fas fa-circle text-success"></i>
+            Build: Success
+        </span>
+    </div>
+</footer>
+{{end}}

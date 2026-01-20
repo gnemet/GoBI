@@ -1,28 +1,35 @@
 {{define "table"}}
-<table>
+<table class="results-table">
     <thead>
         <tr>
             {{range .Columns}}
-            <th>
-                {{if eq . "ID"}}<i class="fas fa-fingerprint sys-icon" title="ID"></i>
-                {{else if eq . "Status"}}<i class="fas fa-heartbeat sys-icon" title="Status"></i>
-                {{else if eq . "Latest"}}<i class="fas fa-clock sys-icon" title="Latest"></i>
-                {{else}}{{.}}{{end}}
+            <th data-field="{{.Name}}" class="col-{{.Name}} {{if .Hidden}}hidden-col{{end}}">
+                {{if eq .Label "ID"}}<i class="fas fa-fingerprint sys-icon" title="ID"></i>
+                {{else if eq .Label "Status"}}<i class="fas fa-heartbeat sys-icon" title="Status"></i>
+                {{else if eq .Label "Latest"}}<i class="fas fa-clock sys-icon" title="Latest"></i>
+                {{else}}{{.Label}}{{end}}
+                <div class="resizer"></div>
             </th>
             {{end}}
-            <th style="text-align: right;"><i class="fas fa-cogs sys-icon" title="Actions"></i></th>
+            <th class="col-actions text-right"><i class="fas fa-cogs sys-icon" title="Actions"></i></th>
         </tr>
     </thead>
     <tbody>
         {{range .Results}}
-        <tr>
+        <tr class="clickable-row">
             {{$row := .}}
             {{range $.Columns}}
-            <td>{{index $row .}}</td>
+            <td class="col-{{.Name}} {{if .Hidden}}hidden-col{{end}}">{{index $row .Name}}</td>
             {{end}}
-            <td style="text-align: right;">
-                <button class="btn btn-glass" style="padding: 0.25rem 0.5rem;"><i
-                        class="fas fa-ellipsis-v"></i></button>
+            <td class="col-actions text-right">
+                {{if $.ChildReportID}}
+                <a href="/report?id={{$.ChildReportID}}&filter_col={{$.ChildParentColumn}}&filter_val={{index $row $.ChildParentColumn}}"
+                    class="btn btn-glass btn-sm" title="Részletek megtekintése">
+                    <i class="fas fa-search-plus"></i>
+                </a>
+                {{else}}
+                <button class="btn btn-glass btn-small-padding"><i class="fas fa-ellipsis-v"></i></button>
+                {{end}}
             </td>
         </tr>
         {{end}}

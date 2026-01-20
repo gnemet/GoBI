@@ -1,13 +1,18 @@
+application:
+  name: "GoBI"
+  version: "0.0.23"
+  last_build: "2026-01-20 15:18:35"
+
 server:
   port: "8080"
 
 database:
   host: "localhost"
-  port: "5432"
-  user: "postgres"
-  password: "your_password"
+  port: "5433"
+  user: "root"
+  password: "" # Set in .env
   database: "gobi_db"
-  schema: "public"
+  schema: "vir"
 
 cursor_pool:
   max_connections: 10
@@ -15,3 +20,9 @@ cursor_pool:
   absolute_timeout: "5m"
   page_size: 10
   available_page_sizes: [10, 20, 50, 100]
+
+reports: [vir01, vir02, vir03, vir04, vir05, vir06, vir08, vir09, vir10, vir11, vir12]
+
+
+
+  

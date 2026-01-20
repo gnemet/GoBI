@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Report.Title}} - GoBI</title>
+    <link rel="stylesheet" href="/ui/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        {{template "nav" .}}
+
+        <main class="main-content">
+            {{template "header" .}}
+
+            <div class="report-header animate-fade-in">
+                <div class="header-info">
+                    <p class="small">{{.Report.Description}}</p>
+                </div>
+
+                <div class="actions-group">
+                    <div class="btn-group">
+                        {{if eq .Report.ViewType "aggregate"}}
+                        <button class="btn btn-icon" hx-get="/report?id={{.Report.ID}}&dir=PREV&session={{.SessionID}}"
+                            hx-target="#results-table-container" title="Előző oldal">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        {{end}}
+
+                        <button class="btn btn-fixed-width"
+                            hx-get="/report?id={{.Report.ID}}&page_size={{.NextPageSize}}&session={{.SessionID}}"
+                            hx-target="#results-table-container" title="Sorok száma: {{.NextPageSize}}">
+                            {{.PageSize}}
+                        </button>
+
+                        {{if eq .Report.ViewType "aggregate"}}
+                        <button class="btn btn-icon" hx-get="/report?id={{.Report.ID}}&dir=NEXT&session={{.SessionID}}"
+                            hx-target="#results-table-container" title="Következő oldal">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                        {{end}}
+                    </div>
+
+                    <div class="column-chooser-wrapper">
+                        <button class="icon-btn" id="column-chooser-btn" title="Oszlopok választása">
+                            <i class="fas fa-columns"></i>
+                        </button>
+                        <div class="column-chooser-dropdown hidden" id="column-chooser-dropdown">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <section class="data-section animate-fade-in">
+                <div id="results-table-container">
+                    {{template "table" .}}
+                </div>
+            </section>
+        </main>
+        {{template "footer" .}}
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <aside class="sidebar-right" id="detail-sidebar">
+        <div class="sidebar-header">
+            <h3>Record Details</h3>
+            <div class="sidebar-buttons">
+                <button class="icon-btn" id="dock-sidebar-btn" title="Dock Sidebar">
+                    <i class="fas fa-thumbtack"></i>
+                </button>
+                <button class="icon-btn" id="close-sidebar-btn" title="Close Sidebar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="sidebar-content">
+            <h4 class="sidebar-section-title">Common Fields</h4>
+            <div class="collapsible-content">
+                <div class="sidebar-details-grid" id="record-details-section">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <h4 class="sidebar-section-title">Raw Data</h4>
+            <div class="collapsible-content">
+                <div class="sidebar-content-padded">
+                    <pre id="raw-data-section"></pre>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <script src="/ui/js/common.js"></script>
+    <script src="/ui/js/report.js"></script>
+</body>
+
+</html>

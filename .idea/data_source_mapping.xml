@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourcePerFileMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/f3a02e6c-c9fc-42aa-a2f7-685f9f0ade92/console.sql" value="f3a02e6c-c9fc-42aa-a2f7-685f9f0ade92" />
+    <file url="file://$PROJECT_DIR$/database/pg/scripts/add validity column.sql" value="f3a02e6c-c9fc-42aa-a2f7-685f9f0ade92" />
+    <file url="file://$PROJECT_DIR$/database/pg/scripts/counts.sql" value="f3a02e6c-c9fc-42aa-a2f7-685f9f0ade92" />
+  </component>
+</project>

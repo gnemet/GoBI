@@ -4,12 +4,15 @@ import (
 	"GoBI/internal/database"
 	"html/template"
 	"net/http"
+	"time"
 )
 
 type DashboardData struct {
-	Stats   []Stat
-	Results []map[string]interface{}
-	Columns []string
+	Stats        []Stat
+	Results      []map[string]interface{}
+	Columns      []TableColumn
+	DatabaseName string
+	Year         int
 }
 
 type Stat struct {
@@ -31,6 +34,7 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 		"ui/templates/partials/nav.html",
 		"ui/templates/partials/stats.html",
 		"ui/templates/partials/table.html",
+		"ui/templates/partials/footer.html",
 	))
 
 	data := DashboardData{
@@ -40,10 +44,18 @@ func DashboardHandler(w http.ResponseWriter, r *http.Request) {
 			{Label: "Bounce Rate", Value: "24.5%", Trend: "-2.1%", Up: false},
 			{Label: "Server Load", Value: "14%", Trend: "Stable", Up: true},
 		},
+		DatabaseName: dbName,
+		Year:         time.Now().Year(),
 	}
 
 	// Mock data for initial table
-	data.Columns = []string{"ID", "Status", "Code", "Name", "Latest"}
+	data.Columns = []TableColumn{
+		{Name: "ID", Label: "ID"},
+		{Name: "Status", Label: "Status"},
+		{Name: "Code", Label: "Code"},
+		{Name: "Name", Label: "Name"},
+		{Name: "Latest", Label: "Latest"},
+	}
 	data.Results = []map[string]interface{}{
 		{"ID": "1001", "Status": "Active", "Code": "BIO-01", "Name": "System Alpha", "Latest": "2026-01-19"},
 		{"ID": "1002", "Status": "Pending", "Code": "BIO-02", "Name": "System Beta", "Latest": "2026-01-20"},
