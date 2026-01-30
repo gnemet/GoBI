@@ -13,3 +13,6 @@ select 'vir_vir11' as name , count(1) from vir_vir11 ;
 select * from vir_param ;
 
 
+select  *
+from vir_vir10 as a
+left join vir_vir10_d as d on a.id = d.id
